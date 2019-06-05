@@ -1,0 +1,24 @@
+{% extends 'catalog/main.html' %}
+ {% block content %}
+<div class="row">
+ <div class="col-4 mt-5 ml-4">
+   <div class="card h-100">
+     <a href="#"><img class="card-img-top" src="{{ product.image.url }}" alt=""></a>
+   </div>
+ </div>
+
+ <div class="col-7 mt-5">
+   <h3>Описание {{ product.title }}</h3>
+   <p>{{ product.description }}</p>
+   <div class="">
+     <h4 class="">
+     </h4>
+     <h5>{{ product.brand }}</h5>
+     <h5>Цена: {{ product.price }} руб.</h5>
+   </div>
+ <div class="">
+   <a href="#"><button class="btn btn-primary" type="submit">Добавить в корзину</button></a>
+ </div>
+ </div>
+</div>
+ {% endblock %}
