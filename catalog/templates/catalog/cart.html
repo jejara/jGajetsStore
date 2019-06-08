@@ -1,0 +1,26 @@
+{% extends 'catalog/main.html' %}
+
+{% block content %}
+<div class="row">
+{% for item in cart.items.all %}
+
+     <div class="col-lg-4 col-md-6 mb-4 ml-4 mt-5">
+            <div class="card h-100">
+              <a href="{{ item.product.get_absolute_url }}"><img class="card-img-top" src="{{ item.product.image.url }}" alt=""></a>
+              <div class="card-body">
+                <h4 class="card-title">
+                  <a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a>
+                </h4>
+                <h5>Цена: {{ item.product.price }} руб.</h5>
+                <h5>{{ item.product.brand }}</h5>
+              </div>
+              <div class="card-footer">
+                <p class="text-center">{{ cart.items.count }} {{ item.product.title}} у вас в корзине</p>
+              </div>
+            </div>
+      </div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

@@ -87,7 +87,7 @@ class CartItem (models.Model):
 
 
 class Cart (models.Model):
-    items = models.ManyToManyField(CartItem)
+    items = models.ManyToManyField(CartItem, blank=True)
 
     cart_total = models.DecimalField(max_digits= 10, decimal_places= 2, default= 0.00)
 

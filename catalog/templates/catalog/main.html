@@ -44,7 +44,7 @@
             </li>
         {% endif %}
           <li class="nav-item">
-            <a class="nav-link" href="#">Корзина</a>
+            <a class="nav-link" href="{% url 'cart' %}">Корзина <span class="badge">{{ cart.items.count }}</span></a>
           </li>
         </ul>
       </div>
@@ -115,7 +115,7 @@
                 <h5>{{ product.brand }}</h5>
               </div>
               <div class="card-footer">
-                <a href="#"><button class="btn btn-primary" type="submit">Добавить в корзину</button></a>
+                <a href="{% url 'add_to_cart' product_slug=product.slug%}"><button class="btn btn-primary" type="submit">Добавить в корзину</button></a>
               </div>
             </div>
           </div>
