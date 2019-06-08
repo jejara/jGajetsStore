@@ -69,3 +69,29 @@ class Product(models.Model):
         return reverse('product_detail', kwargs = {
             'product_slug': self.slug,
         })
+
+class CartItem (models.Model):
+
+    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+
+    qty = models.PositiveIntegerField(default= 17)
+
+    item_total =  models.DecimalField(max_digits= 10, decimal_places= 2, default= 0.00)
+
+
+
+    def __str__(self):
+        return 'Cart item for product {0}'.format(self.product.title)
+
+
+
+
+class Cart (models.Model):
+    items = models.ManyToManyField(CartItem)
+
+    cart_total = models.DecimalField(max_digits= 10, decimal_places= 2, default= 0.00)
+
+    def __str__(self):
+        return str(self.id)
+
+
