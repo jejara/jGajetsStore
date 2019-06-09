@@ -4,6 +4,18 @@ from .models import Category, Product, Cart, CartItem
 
 # Create your views here.
 def base_view(request):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
     cart = Cart.objects.first()
     categories = Category.objects.all()
     products = Product.objects.all()
@@ -18,7 +30,17 @@ def base_view(request):
     return render(request, 'catalog/main.html', context)
 
 def product_view(request, product_slug):
-    cart = Cart.objects.first()
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
 
     product = Product.objects.get(slug = product_slug)
     categories = Category.objects.all()
@@ -32,7 +54,18 @@ def product_view(request, product_slug):
 
 
 def category_view(request, category_slug):
-    cart = Cart.objects.first()
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
     category = Category.objects.get(slug = category_slug)
     categories = Category.objects.all()
     products_of_category = Product.objects.filter(category = category)
@@ -47,6 +80,17 @@ def category_view(request, category_slug):
 
 
 def cart_view(request):
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
     categories = Category.objects.all()
 
     cart = Cart.objects.first()
@@ -60,13 +104,45 @@ def cart_view(request):
 
 def add_to_cart_view(request, product_slug):
 
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
     product = Product.objects.get(slug=product_slug)
     new_item, _ = CartItem.objects.get_or_create(product = product, item_total = product.price)
-    cart = Cart.objects.first()
 
     if new_item not in cart.items.all():
         cart.items.add(new_item)
         cart.save()
         return HttpResponseRedirect('/cart/')
 
+def remove_from_cart_view(request, product_slug):
 
+    try:
+        cart_id = request.session['cart_id']
+        cart = Cart.objects.get(id=cart_id)
+        request.session['total'] = cart.items.count()
+
+    except:
+        cart = Cart()
+        cart.save()
+        cart_id = cart.id
+        request.session['cart_id'] = cart_id
+        cart = Cart.objects.get(id=cart_id)
+
+    product = Product.objects.get(slug=product_slug)
+
+
+    for cart_item in cart.items.all():
+        if cart_item.product == product:
+            cart.items.remove(cart_item)
+            cart.save()
+            return HttpResponseRedirect('/cart/')
